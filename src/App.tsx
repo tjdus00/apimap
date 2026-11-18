@@ -80,7 +80,14 @@ function LocationPicker({
         return;
       }
       const response = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
-      const data: unknown = await response.json();
+      let data: unknown;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "검색 서버에서 올바른 응답을 받지 못했습니다. 잠시 후 다시 시도해 주세요.",
+        );
+      }
       if (searchId !== activeSearch.current) {
         return;
       }

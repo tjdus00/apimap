@@ -16,14 +16,7 @@ const localSearchApi: Plugin = {
       }
 
       try {
-        const apiResponse = await searchHandler(
-          new Request(requestUrl, { method: request.method ?? "GET" }),
-        );
-        response.statusCode = apiResponse.status;
-        apiResponse.headers.forEach((value, name) => {
-          response.setHeader(name, value);
-        });
-        response.end(await apiResponse.text());
+        await searchHandler(request, response);
       } catch (error) {
         next(error);
       }
